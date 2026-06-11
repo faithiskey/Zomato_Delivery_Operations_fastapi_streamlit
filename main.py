@@ -1,13 +1,15 @@
 from fastapi import FastAPI
 import joblib
+import os
 from pydantic import BaseModel
 import pandas as pd
 
 main = FastAPI()
 
-model = joblib.load("model/delivery_time_model.pkl")
+BASE_DIR = os.path.dirname(__file__)
+model_path = os.path.join(BASE_DIR, "model", "delivery_time_model.pkl")
 
-
+model = joblib.load(model_path)
 class DeliveryData(BaseModel):
     Weather_conditions: str
     Road_traffic_density: str
