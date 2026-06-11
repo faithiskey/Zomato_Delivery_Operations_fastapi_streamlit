@@ -127,7 +127,7 @@ Sample Request:
 
 Run locally:
 
--streamlit run app.py
+-streamlit run streamlit_main.py
 
 Features:
 
