@@ -6,10 +6,13 @@ import pandas as pd
 
 main = FastAPI()
 
+# Load model safely (Render-ready)
 BASE_DIR = os.path.dirname(__file__)
 model_path = os.path.join(BASE_DIR, "model", "delivery_time_model.pkl")
-
 model = joblib.load(model_path)
+
+
+# Input schema
 class DeliveryData(BaseModel):
     Weather_conditions: str
     Road_traffic_density: str
@@ -21,13 +24,12 @@ class DeliveryData(BaseModel):
     City: str
 
 
+# Predict endpoint
 @main.post("/predict")
 def predict(data: DeliveryData):
 
-    # Convert Pydantic model → dictionary → DataFrame
     input_df = pd.DataFrame([data.dict()])
 
-    # Predict
     prediction = model.predict(input_df)[0]
 
     return {
